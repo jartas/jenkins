@@ -1,5 +1,5 @@
 pipeline {
-    agent { dockerfile true }
+    agent { any }
     stages {
         stage('Checkout') {
             steps {
@@ -8,9 +8,13 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'node --version'
-                sh 'svn --version'
+                sh 'python --version'
             }
-        }        
+        }     
+        stage('Build') {
+            steps {
+                sh 'python main.py'
+            }
+        }           
     }
 }
