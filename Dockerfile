@@ -1,3 +1,3 @@
-FROM node:20.10.0-alpine3.19
+FROM python:latest
 
-RUN apk add -U subversion
+RUN python --version
