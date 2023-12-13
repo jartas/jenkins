@@ -1,14 +1,10 @@
 pipeline {
     agent any
     stages {
-        stage('Build') { 
-            steps {
-                sh 'sleep 15' 
-            }
-        }
         stage('Docker') { 
             agent {
                 docker {image 'python:latest'}
+                sh 'sleep 20'
             }
             steps {
                 sh 'python3 version' 
