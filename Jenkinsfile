@@ -1,20 +1,15 @@
 pipeline {
-    agent any
+    agent none 
     stages {
-        stage('Checkout') {
+        stage('Build') { 
+            agent {
+                docker {
+                    image 'python:3.12.1-alpine3.19' 
+                }
+            }
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/jartas/jenkins.git']])
+                sh 'python3 main.py' 
             }
         }
-        stage('Test') {
-            steps {
-                sh 'python3 --version'
-            }
-        }     
-        stage('Build') {
-            steps {
-                sh 'python3 main.py'
-            }
-        }           
     }
 }
