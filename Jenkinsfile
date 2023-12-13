@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        docker {images 'python:latest'}
+        docker {image 'python:latest'}
     }
     stages {
         stage('Build') { 
