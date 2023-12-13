@@ -4,7 +4,7 @@ pipeline {
         stage('Docker') { 
                 agent {
                     docker {image 'redis'}
-                }
+                
             }
         }
     }
