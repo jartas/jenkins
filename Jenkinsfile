@@ -7,9 +7,6 @@ pipeline {
         	image 'redis'
         }
       }
-      steps {
-      	sh 'mvn clean install'
-      }
     }
     stage('Docker Build') {
     	agent any
