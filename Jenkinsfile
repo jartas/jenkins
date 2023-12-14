@@ -9,20 +9,6 @@ pipeline {
     agent any
     stages {
         
-        stage('checkout') {
-                steps {
-                git branch: 'master',
-                credentialsId: githubCredential,
-                url: 'https://github.com/ashish-mj/Jenkins.git'
-                }
-        }
-        
-        stage ('Test'){
-                steps {
-                sh "pytest testRoutes.py"
-                }
-        }
-        
         stage ('Clean Up'){
             steps{
                 sh returnStatus: true, script: 'docker stop $(docker ps -a | grep ${JOB_NAME} | awk \'{print $1}\')'
@@ -30,30 +16,10 @@ pipeline {
                 sh returnStatus: true, script: 'docker rm ${JOB_NAME}'
             }
         }
-
-        stage('Build Image') {
-            steps {
-                script {
-                    img = registry + ":${env.BUILD_ID}"
-                    println ("${img}")
-                    dockerImage = docker.build("${img}")
-                }
-            }
-        }
-
-        stage('Push To DockerHub') {
-            steps {
-                script {
-                    docker.withRegistry( 'https://registry.hub.docker.com ', registryCredential ) {
-                        dockerImage.push()
-                    }
-                }
-            }
-        }
                     
         stage('Deploy') {
            steps {
-                sh label: '', script: "docker run -d --name ${JOB_NAME} -p 5000:5000 ${img}"
+                sh label: '', script: "docker run -d --name ${JOB_NAME} -p 5000:5000 redis"
           }
         }
 
